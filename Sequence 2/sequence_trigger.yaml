@@ -1,0 +1,11 @@
+sequence_id: 3
+current_drive:
+  main_goal: 조력자를 치료할 의료 물자나 인물을 여관 인근에서 확보하고, 조력자의 고백 전모를 듣는 것
+  key_conflict:
+  - type: External
+    description: 여관 인근을 수색 중인 추격자들 — 의료 물자를 구하러 외부로 나가면 발각될 위험이 있음
+  - type: Internal
+    description: 조력자가 아버지와 연루된 인물이라는 사실이 밝혀지며, 주인공은 조력자를 온전히 신뢰해야 할지 의심해야 할지 갈등함
+ingredients_to_use:
+  payoff_id_to_trigger: PAYOFF_01_01
+  location_constraint: 낡은 여관

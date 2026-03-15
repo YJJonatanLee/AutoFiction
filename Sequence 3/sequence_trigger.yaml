@@ -1,0 +1,12 @@
+sequence_id: 4
+current_drive:
+  main_goal: 추격자들이 여관을 수색하기 전에 조력자를 데리고 여관을 빠져나가거나, 여관 안에서 발각되지 않고 버텨내는 것
+  key_conflict:
+  - type: External
+    description: 추격자들이 여관 자체를 수색 대상으로 삼을 경우, 움직이지 못하는 조력자를 데리고 탈출 또는 은신해야 하는 물리적 위기
+  - type: Internal
+    description: 여관 주인이 자신들의 내막을 알고 있다는 사실이 드러난 지금, 주인공은 여관 주인을 동맹으로 믿어야 할지 또 다른 위협으로
+      경계해야 할지 판단해야 함
+ingredients_to_use:
+  payoff_id_to_trigger: PAYOFF_003
+  location_constraint: 여관 창가 판자 뒤 은신 공간

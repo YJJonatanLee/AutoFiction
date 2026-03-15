@@ -1,0 +1,41 @@
+factions:
+- faction_id: FAC_PROTAGONIST
+  name: 주인공 일행
+  motivation: 생존 및 물건의 안전한 전달
+- faction_id: FAC_ANTAGONIST
+  name: 적대 세력 (빌런의 집단)
+  motivation: 물건 탈취 및 주인공 일행 제거
+characters:
+- char_id: CHAR_01
+  name: 주인공
+  affiliation: FAC_PROTAGONIST
+  current_status: 낡은 여관 도착, 신체적으로는 안정. 조력자의 고백으로 심리적 혼란 가중. 이기적 충동을 스스로 억제한 첫 경험.
+  traits:
+  - 평범함
+  - 숨겨진 잠재력
+  - 정의로움
+  relationships:
+  - target_id: CHAR_02
+    type: 의존 (조력자)
+  - target_id: CHAR_03
+    type: 공포 및 적대 (추격자)
+- char_id: CHAR_02
+  name: 조력자 (멘토 또는 동료)
+  affiliation: FAC_PROTAGONIST
+  current_status: 낡은 여관 침대에 누운 상태. 옆구리 부상이 염증으로 진행 중, 이틀 내 발열 위험. 주인공과의 관계가 새로운 국면으로
+    전환.
+  traits:
+  - 경험 많음
+  - 비밀을 간직함
+- char_id: CHAR_03
+  name: 추격자 (서브 빌런)
+  affiliation: FAC_ANTAGONIST
+  current_status: 능선 너머 잘못된 경로로 이탈. 그러나 인근 산속에서 수색 중이며 재접근 가능성 존재.
+- char_id: CHAR_04
+  name: 여관 주인 (또는 인근 밀수꾼/은퇴한 치료사)
+  affiliation: 중립
+  current_status: 낡은 여관에 상주. 정체불명의 손님을 경계하는 중.
+  traits:
+  - 정보에 밝음
+  - 이해관계에 따라 움직임
+  - 과거 어느 편에도 속했을 가능성

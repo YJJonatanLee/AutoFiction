@@ -1,0 +1,22 @@
+event_structure:
+  step_1_action: "주인공이 main_goal을 달성하기 위해 주도적으로 내린 결정이나 행동."
+  step_2_complication: "그 행동이 key_conflict와 정면으로 부딪히며 상황이 예상보다 악화됨."
+  step_3_climax: "이번 시퀀스 내에서의 물리적/심리적 충돌 (작은 절정)."
+  step_4_resolution: "성공, 실패, 혹은 '절반의 성공(Yes, but...)'으로 끝나는 결말."
+
+output_requirements:
+  - "이 사건의 결과를 바탕으로 다음 시퀀스를 위한 새로운 main_goal과 key_conflict를 제안할 것."
+  - "등장인물의 상태(status) 변화를 명시할 것."
+
+feedforward_schema:
+  next_main_goal: "이번 사건의 결과(Resolution)로 인해 주인공이 새롭게 가지게 된 가장 시급한 목표."
+  next_key_conflict:
+    - "목표 달성을 방해할 새로운 외부적 장애물 (예: 새로운 적의 등장, 자원 고갈)"
+    - "주인공 내부의 새로운 딜레마 (예: 조력자를 의심하기 시작함)"
+  new_elements_to_add:
+    characters: "이번 시퀀스에서 스쳐 지나갔거나 새롭게 언급되어, 다음 시퀀스에 정식으로 등장할 인물의 초안"
+    locations: "주인공이 도달해야 할 새로운 장소나, 방금 파괴되어 규칙이 바뀐 구역"
+    rules: "이번 사건을 통해 새롭게 밝혀진 세계의 법칙이나 기술적 한계"
+  new_payoffs_to_queue:
+    - description: "이번 사건 중 발생한 의문점이나 회수되지 않은 소품/대사 (예: 적이 남긴 암호 메시지)"
+      weight: "0.1 ~ 1.0 사이의 중요도 측정값"

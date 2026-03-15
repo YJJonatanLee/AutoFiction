@@ -1,0 +1,30 @@
+factions:
+  - faction_id: "FAC_PROTAGONIST"
+    name: "주인공 일행"
+    motivation: "생존 및 물건의 안전한 전달"
+  - faction_id: "FAC_ANTAGONIST"
+    name: "적대 세력 (빌런의 집단)"
+    motivation: "물건 탈취 및 주인공 일행 제거"
+
+characters:
+  - char_id: "CHAR_01"
+    name: "주인공"
+    affiliation: "FAC_PROTAGONIST"
+    current_status: "혼란스러움, 가벼운 부상 상태"
+    traits: ["평범함", "숨겨진 잠재력", "정의로움"]
+    relationships:
+      - target_id: "CHAR_02"
+        type: "의존 (조력자)"
+      - target_id: "CHAR_03"
+        type: "공포 및 적대 (추격자)"
+
+  - char_id: "CHAR_02"
+    name: "조력자 (멘토 또는 동료)"
+    affiliation: "FAC_PROTAGONIST"
+    current_status: "주인공을 보호하며 길을 안내 중"
+    traits: ["경험 많음", "비밀을 간직함"]
+
+  - char_id: "CHAR_03"
+    name: "추격자 (서브 빌런)"
+    affiliation: "FAC_ANTAGONIST"
+    current_status: "주인공의 흔적을 쫓고 있음"

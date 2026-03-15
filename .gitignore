@@ -1,0 +1,16 @@
+# 환경 변수 (API 키 포함 — 절대 커밋하지 말 것)
+.env
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.Python
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/

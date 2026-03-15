@@ -1,0 +1,51 @@
+factions:
+- faction_id: FAC_PROTAGONIST
+  name: 주인공 일행
+  motivation: 생존 및 물건의 안전한 전달
+- faction_id: FAC_ANTAGONIST
+  name: 적대 세력 (빌런의 집단)
+  motivation: 물건 탈취 및 주인공 일행 제거
+characters:
+- char_id: CHAR_01
+  name: 주인공
+  affiliation: FAC_PROTAGONIST
+  current_status: 여관 은신 공간에서 대기 중. 의료 처치 완료. 여관 주인과 조건부 약속 체결. 함의 인장·이니셜 발견으로 심리적
+    혼란 심화. 추격자 재접근으로 즉각적인 위기 상태.
+  traits:
+  - 평범함
+  - 숨겨진 잠재력
+  - 정의로움
+  relationships:
+  - target_id: CHAR_02
+    type: 의존 (조력자)
+  - target_id: CHAR_03
+    type: 공포 및 적대 (추격자)
+- char_id: CHAR_02
+  name: 조력자 (멘토 또는 동료)
+  affiliation: FAC_PROTAGONIST
+  current_status: 상처 처치 완료, 소염 연고 및 봉합 처치 받음. 발열 위기 일시 완화. 아직 의식 회복 불완전, 고백의 전모를 밝히지
+    못한 상태.
+  traits:
+  - 경험 많음
+  - 비밀을 간직함
+- char_id: CHAR_03
+  name: 추격자 (서브 빌런)
+  affiliation: FAC_ANTAGONIST
+  current_status: 도로 쪽으로 재접근 중. 여관 인근 재수색 임박.
+- char_id: CHAR_04
+  name: 여관 주인 (또는 인근 밀수꾼/은퇴한 치료사)
+  affiliation: 중립
+  current_status: 주인공에게 의료 물자를 조건부로 제공. 조카를 보초로 운용 중. 주인공 일행의 과거와 연결된 정보를 보유한 것으로
+    드러남. 주인공으로부터 '돌아오겠다'는 약속을 받아냄.
+  traits:
+  - 정보에 밝음
+  - 이해관계에 따라 움직임
+  - 과거 어느 편에도 속했을 가능성
+- char_id: CHAR_05
+  name: 여관 주인의 조카 (보초)
+  affiliation: 중립 (여관 주인 측)
+  current_status: 도로 쪽 보초 역할 수행 중. 추격자 재접근을 여관 주인에게 보고함.
+  traits:
+  - 젊고 민첩함
+  - 여관 주인의 지시에 따름
+  - 이 상황의 진짜 배경을 얼마나 아는지 불명확

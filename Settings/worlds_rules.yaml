@@ -1,0 +1,16 @@
+world_settings:
+  world_name: "기본 세계관"
+  core_mechanics:
+    - rule_id: "RULE_01"
+      name: "핵심 기술/마법/법칙"
+      description: "주인공이 사용하는 능력은 하루에 3번만 쓸 수 있거나, 특정 부작용이 따름."
+    - rule_id: "RULE_02"
+      name: "이동 및 통신 제약"
+      description: "실시간 통신 불가, 이동은 오직 육로로만 가능함."
+locations:
+  - loc_id: "LOC_START"
+    name: "주인공의 고향 / 일상적 공간"
+    status: "현재 파괴되었거나 돌아갈 수 없음"
+  - loc_id: "LOC_NEXT"
+    name: "첫 번째 중간 거점"
+    status: "현재 주인공이 향하고 있는 목적지"

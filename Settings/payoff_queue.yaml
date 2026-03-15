@@ -1,0 +1,47 @@
+pending_payoffs:
+- payoff_id: PAYOFF_001
+  description: 주인공이 얻은 '의문의 물건'의 진짜 용도는 무엇인가?
+  origin_sequence: 0
+  weight: 0.8
+  condition_to_resolve: 물건의 정체를 아는 전문가를 만났을 때
+- payoff_id: PAYOFF_002
+  description: 조력자가 주인공을 돕는 진짜 이유 (숨겨진 과거)
+  origin_sequence: 0
+  weight: 0.3
+  condition_to_resolve: 조력자가 치명적인 위기에 처했을 때
+- payoff_id: PAYOFF_003
+  description: 조력자가 말한 '아버지가 이 물건을 맡겼다'는 고백의 전말 — 주인공의 부모는 누구이며 조력자와 어떤 관계인가?
+  origin_sequence: 1
+  weight: 0.9
+  condition_to_resolve: 조력자가 완전히 회복하여 과거를 전부 털어놓을 때, 혹은 물건의 정체가 밝혀질 때
+- payoff_id: PAYOFF_004
+  description: 추격자들이 큰길 대신 산길을 선택한 이유 — 우연인가, 주인공 일행의 경로를 미리 알고 있었던 것인가?
+  origin_sequence: 1
+  weight: 0.5
+  condition_to_resolve: 추격자의 내부 정보원이나 추적 수단이 밝혀질 때
+- payoff_id: PAYOFF_01_01
+  description: 여관 주인이 주인공 일행을 보고 미묘하게 반응함 — 이미 누군가에게 연락을 취했거나, 일행의 정체를 알고 있을 가능성
+  origin_sequence: 1
+  weight: 0.4
+  condition_to_resolve: 미정
+- payoff_id: PAYOFF_01_02
+  description: 조력자가 의식을 잃기 직전 쥐어준 작은 물건(열쇠, 인장 등) — 다음 목적지 혹은 물건의 비밀과 연결될 복선
+  origin_sequence: 1
+  weight: 0.6
+  condition_to_resolve: 미정
+- payoff_id: PAYOFF_02_01
+  description: 함 안쪽 뚜껑에 새겨진 인장 문양과 이니셜 두 글자 — 조력자 혹은 주인공 부모와 연결되는 소품
+  origin_sequence: 2
+  weight: 0.7
+  condition_to_resolve: 이니셜과 인장의 주인이 누구인지 밝혀질 때
+- payoff_id: PAYOFF_02_02
+  description: 여관 주인이 십 년 전 같은 상처를 입은 손님으로부터 이 함을 받은 경위 — 그 손님은 누구인가
+  origin_sequence: 2
+  weight: 0.65
+  condition_to_resolve: 여관 주인이 과거를 직접 털어놓을 때, 또는 조력자가 여관 주인과의 연결고리를 시인할 때
+- payoff_id: PAYOFF_02_03
+  description: 여관 주인이 주인공 일행을 추격자에게 팔지 않고 숨겨준 진짜 이유
+  origin_sequence: 2
+  weight: 0.5
+  condition_to_resolve: 여관 주인의 정체와 과거 소속이 밝혀질 때
+resolved_payoffs: []

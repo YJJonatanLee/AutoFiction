@@ -1,0 +1,11 @@
+metadata:
+  project_name: Untitled_Project
+  current_sequence_id: 3
+  genre: Standard Adventure
+global_narrative:
+  theme: 평범한 인물이 시련을 통해 성장하는 이야기
+  ultimate_goal: 최종 목적지 도달 및 메인 빌런 격퇴
+current_state:
+  logline: 추격자들이 여관을 수색하기 전에 조력자를 데리고 여관을 빠져나가거나, 여관 안에서 발각되지 않고 버텨내는 것
+  immediate_objective: 추격자들이 여관 자체를 수색 대상으로 삼을 경우, 움직이지 못하는 조력자를 데리고 탈출 또는 은신해야 하는
+    물리적 위기

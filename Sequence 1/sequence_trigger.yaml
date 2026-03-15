@@ -1,0 +1,13 @@
+sequence_id: 2
+
+current_drive:
+  main_goal: "추격자를 따돌리고 첫 번째 안전 거점인 '낡은 여관'에 도착하여 숨을 고르는 것"
+  key_conflict:
+    - type: "External (외부적)"
+      description: "조력자가 부상을 입어 이동 속도가 현저히 느려짐. 추격자의 거리가 좁혀짐."
+    - type: "Internal (내면적)"
+      description: "주인공은 이 위험한 물건을 버리고 혼자 도망치고 싶은 이기적인 충동과 싸움."
+
+ingredients_to_use:
+  payoff_id_to_trigger: "PAYOFF_002"
+  location_constraint: "LOC_NEXT로 향하는 험준한 산길"
