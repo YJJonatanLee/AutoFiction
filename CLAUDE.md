@@ -16,9 +16,10 @@ Sequence N의 결과물이 Sequence N+1의 입력이 되는 autoregressive loop.
 # 반드시 ai_playground/ 루트에서 실행 (상대 경로 기준점)
 cd /path/to/ai_playground
 
+# .env 파일에 ANTHROPIC_API_KEY 저장하거나 export로 설정
 export ANTHROPIC_API_KEY="..."
 
-# 원스텝 (가상환경 생성 + 실행)
+# 원스텝 (가상환경 생성 + 실행, .env 자동 로드, max-sequences·start-sequence 대화형 입력)
 ./quick_start.sh
 
 # 수동 실행
@@ -83,7 +84,11 @@ context_loader
 |------|------|-----------|
 | `sequence_trigger.yaml` | 이번 시퀀스의 목표·갈등·재료 | `sequence_creator`가 N+1용 자동 생성 |
 | `characters_and_factions.yaml` | 캐릭터 상태 | `sequence_creator`가 N+1용 업데이트 후 복사 |
-| `narrative.md` | 완성된 소설 산문 | `sequence_creator`가 현재 시퀀스에 저장 |
+| `narrative.md` | 완성된 소설 산문 | `sequence_creator`가 현재 시퀀스(N)에 저장 |
+
+`sequence_creator`는 한 번 실행으로 두 가지 작업을 수행한다:
+1. 현재 시퀀스 N: `narrative.md` 저장
+2. 다음 시퀀스 N+1: 폴더 생성 + `sequence_trigger.yaml` + `characters_and_factions.yaml` 작성
 
 ### feedforward → 다음 trigger 매핑
 
@@ -92,6 +97,8 @@ context_loader
 - `next_key_conflict` → `current_drive.key_conflict`
 - `new_elements.locations[0]` → `ingredients_to_use.location_constraint`
 - `new_payoffs_to_queue[0]` (없으면 pending 중 최고 weight) → `payoff_id_to_trigger`
+
+`feedforward.new_payoffs_to_queue` 항목은 `state_updater`가 `payoff_queue.yaml`에 추가할 때 ID를 자동 생성한다: `PAYOFF_{seq_id:02d}_{i+1:02d}` (예: 시퀀스 3의 첫 번째 신규 payoff → `PAYOFF_03_01`)
 
 ---
 
@@ -102,6 +109,8 @@ context_loader
 - **`prev_narrative_full`** — `NarrativeState` TypedDict에 선언되지 않음. `context_loader`가 state에 동적으로 추가하는 방식 (정리 필요).
 - **에러 처리** — 각 노드에서 에러 발생 시 `state["error"]`를 세팅하고 즉시 END로 빠짐. 재시도 로직 없음.
 - **`narrative_rules.yaml`** — 코드가 직접 파싱하지 않음. `build_user_prompt()`가 YAML 텍스트 그대로 덤프해서 LLM에 전달. (프롬프트 엔지니어링 외부화)
+- **`utils.py` 경로 헬퍼** — `get_sequence_path(base_path, n)` → `Path / "Sequence {n}"`, `get_settings_path(base_path)` → `Path / "Settings"`. 경로 구성 시 이 함수를 사용할 것.
+- **YAML 쓰기** — `write_yaml()`은 `allow_unicode=True`로 저장하므로 한글 등 유니코드가 그대로 유지됨.
 
 ---
 

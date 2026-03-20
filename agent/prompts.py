@@ -1,4 +1,5 @@
 import yaml
+from agent.utils import load_graph, dump_graph, extract_relevant_subgraph
 
 SYSTEM_PROMPT = """당신은 숙련된 서사 작가이자 스토리 구조 전문가입니다.
 주어진 세계관 규칙, 캐릭터 정보, 이전 사건들을 바탕으로 새로운 시퀀스의 서사를 생성합니다.
@@ -42,6 +43,14 @@ character_updates:
   - char_id: "<string>"
     current_status: "<string>"
 
+relationship_updates:  # 이번 시퀀스로 변화한 관계 (변화 없으면 빈 리스트)
+  - from: "<node_id>"   # CHAR_*, ITEM_*, FAC_* 모두 가능
+    to: "<node_id>"
+    relation: "<relation_type>"   # trust / fear_hostility / past_connection 등
+    strength: <float 0.0~1.0>    # (선택) 새 강도
+    since_sequence: <int>        # (선택) 관계 시작 시퀀스
+    note: "<string>"             # (선택) 변화 이유
+
 feedforward:
   next_main_goal: "<string>"
   next_key_conflict:
@@ -49,7 +58,7 @@ feedforward:
       description: "<string>"
   new_elements:
     characters:   # 새 인물 (없으면 빈 리스트)
-      - char_id: "<string>"
+      - id: "<string>"
         name: "<string>"
         affiliation: "<string>"
         current_status: "<string>"
@@ -75,6 +84,9 @@ def build_user_prompt(state: dict) -> str:
     narrative_rules = state["narrative_rules"]
     trigger = state["current_trigger"]
     characters = state["current_characters"]
+    G = load_graph(characters)
+    subgraph = extract_relevant_subgraph(G, radius=2)
+    characters_context = dump_graph(subgraph)
 
     # 페이오프 큐 중 pending 목록 (weight 내림차순으로 정렬하여 우선순위 명시)
     pending = payoff_queue.get("pending_payoffs", [])
@@ -122,8 +134,8 @@ def build_user_prompt(state: dict) -> str:
 {prev_narrative_block}
 
 ---
-## 현재 캐릭터 & 진영
-{yaml.dump(characters, allow_unicode=True, default_flow_style=False)}
+## 현재 캐릭터 & 진영 (트리거 관련 노드, radius=2)
+{yaml.dump(characters_context, allow_unicode=True, default_flow_style=False)}
 
 ---
 ## 미결 페이오프 큐 (weight 높을수록 우선 해결)

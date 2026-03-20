@@ -12,6 +12,8 @@ from .utils import (
     read_yaml,
     write_text,
     write_yaml,
+    load_graph,
+    dump_graph,
 )
 from .prompts import SYSTEM_PROMPT, build_user_prompt
 
@@ -298,20 +300,42 @@ def sequence_creator(state: NarrativeState) -> NarrativeState:
         # --- characters_and_factions.yaml: character_updates 반영 ---
         characters = state["current_characters"]
         char_updates = updates.get("character_updates", []) or []
-        char_map = {c["char_id"]: c for c in characters.get("characters", [])}
+
+        # --- NetworkX로 characters 그래프 로드 ---
+        G = load_graph(characters)  # nx.MultiDiGraph
+
+        # 1. character_updates: current_status만 업데이트
         for cu in char_updates:
             cid = cu.get("char_id")
-            if cid in char_map:
-                char_map[cid].update(cu)
-            else:
-                char_map[cid] = cu
-        characters["characters"] = list(char_map.values())
+            if cid and cid in G and "current_status" in cu:
+                G.nodes[cid]["current_status"] = cu["current_status"]
 
-        # new_elements에서 새 캐릭터 추가
+        # 2. feedforward.new_elements.characters: 새 캐릭터 노드 추가
         new_chars = updates.get("feedforward", {}).get("new_elements", {}).get("characters", []) or []
         for nc in new_chars:
-            if nc.get("char_id") not in char_map:
-                characters["characters"].append(nc)
+            nid = nc.get("id")
+            if nid and nid not in G:
+                G.add_node(nid, node_type="characters", **{k: v for k, v in nc.items() if k != "id"})
+
+        # 3. relationship_updates: (from, to, relation) 트리플로 엣지 upsert
+        # MultiDiGraph에서 key=relation으로 엣지를 구분
+        relationship_updates = updates.get("relationship_updates", []) or []
+        for ru in relationship_updates:
+            src, dst, rel = ru.get("from"), ru.get("to"), ru.get("relation")
+            if not (src and dst and rel):
+                continue
+            if G.has_edge(src, dst, key=rel):
+                for opt in ("strength", "note", "since_sequence"):
+                    if opt in ru:
+                        G[src][dst][rel][opt] = ru[opt]
+            else:
+                edge_attrs = {"relation": rel}
+                for opt in ("strength", "since_sequence", "note"):
+                    if opt in ru:
+                        edge_attrs[opt] = ru[opt]
+                G.add_edge(src, dst, key=rel, **edge_attrs)
+
+        characters = dump_graph(G)
 
         write_yaml(next_seq_path / "characters_and_factions.yaml", characters)
 

@@ -1,5 +1,6 @@
 import re
 import yaml
+import networkx as nx
 from pathlib import Path
 
 
@@ -47,3 +48,51 @@ def get_sequence_path(base_path: str, sequence_id: int) -> Path:
 
 def get_settings_path(base_path: str) -> Path:
     return Path(base_path) / "Settings"
+
+
+def load_graph(characters: dict) -> nx.MultiDiGraph:
+    """characters_and_factions dict → NetworkX MultiDiGraph.
+    MultiDiGraph: 같은 두 노드 사이 relation 타입별 여러 엣지 허용."""
+    G = nx.MultiDiGraph()
+    nodes = characters.get("nodes", {})
+
+    for node_type, items in nodes.items():
+        for item in (items or []):
+            nid = item.get("id")
+            if nid:
+                G.add_node(nid, node_type=node_type, **{k: v for k, v in item.items() if k != "id"})
+
+    for edge in (characters.get("edges", []) or []):
+        src, dst, rel = edge.get("from"), edge.get("to"), edge.get("relation")
+        if src and dst and rel:
+            attrs = {k: v for k, v in edge.items() if k not in ("from", "to", "relation")}
+            G.add_edge(src, dst, key=rel, relation=rel, **attrs)
+
+    return G
+
+
+def dump_graph(G: nx.MultiDiGraph) -> dict:
+    """NetworkX MultiDiGraph → characters_and_factions dict (YAML 저장용)"""
+    nodes_by_type: dict = {}
+    for nid, data in G.nodes(data=True):
+        node_type = data.get("node_type", "characters")
+        entry = {"id": nid, **{k: v for k, v in data.items() if k != "node_type"}}
+        nodes_by_type.setdefault(node_type, []).append(entry)
+
+    edges = []
+    for src, dst, rel, data in G.edges(keys=True, data=True):
+        edges.append({"from": src, "to": dst, "relation": rel, **{k: v for k, v in data.items() if k != "relation"}})
+
+    return {"nodes": nodes_by_type, "edges": edges}
+
+
+def extract_relevant_subgraph(G: nx.MultiDiGraph, radius: int = 2) -> nx.MultiDiGraph:
+    """주인공(CHAR_01) 기준 radius 홉 이내 노드만 추출.
+    CHAR_01이 없으면 전체 그래프 반환."""
+    protagonist = "CHAR_01"
+    if protagonist not in G:
+        return G
+    # 방향 무시하고 이웃 탐색 (undirected ego_graph)
+    undirected = G.to_undirected()
+    sub_nodes = set(nx.ego_graph(undirected, protagonist, radius=radius).nodes())
+    return G.subgraph(sub_nodes).copy()
