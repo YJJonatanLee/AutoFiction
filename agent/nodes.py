@@ -7,6 +7,7 @@ from .state import NarrativeState
 from .utils import (
     get_sequence_path,
     get_settings_path,
+    get_history_path,
     parse_updates_yaml,
     parse_xml_sections,
     read_yaml,
@@ -27,13 +28,14 @@ def context_loader(state: NarrativeState) -> NarrativeState:
     base = state["base_path"]
     seq_id = state["current_sequence_id"]
     settings = get_settings_path(base)
+    history = get_history_path(base)
     seq_path = get_sequence_path(base, seq_id)
 
     try:
         world_rules = read_yaml(settings / "worlds_rules.yaml")
         main_logline = read_yaml(settings / "main_logline.yaml")
-        events_log = read_yaml(settings / "events_log.yaml")
-        payoff_queue = read_yaml(settings / "payoff_queue.yaml")
+        events_log = read_yaml(history / "events_log.yaml")
+        payoff_queue = read_yaml(history / "payoff_queue.yaml")
         narrative_rules = read_yaml(settings / "narrative_rules.yaml")
 
         trigger = read_yaml(seq_path / "sequence_trigger.yaml")
@@ -137,6 +139,7 @@ def state_updater(state: NarrativeState) -> NarrativeState:
 
     base = state["base_path"]
     settings = get_settings_path(base)
+    hist_path = get_history_path(base)
     updates = state["structured_updates"]
     seq_id = state["current_sequence_id"]
 
@@ -148,7 +151,7 @@ def state_updater(state: NarrativeState) -> NarrativeState:
             history = events_log.get("history", [])
             history.append(entry)
             events_log["history"] = history
-            write_yaml(settings / "events_log.yaml", events_log)
+            write_yaml(hist_path / "events_log.yaml", events_log)
 
         # --- payoff_queue.yaml: resolve 처리 + new_payoffs 추가 ---
         payoff_queue = state["payoff_queue"]
@@ -184,7 +187,7 @@ def state_updater(state: NarrativeState) -> NarrativeState:
 
         payoff_queue["pending_payoffs"] = still_pending
         payoff_queue["resolved_payoffs"] = resolved
-        write_yaml(settings / "payoff_queue.yaml", payoff_queue)
+        write_yaml(hist_path / "payoff_queue.yaml", payoff_queue)
 
         # --- world_rules.yaml: 변경 있을 때만 ---
         world_rules_changes = updates.get("world_rules_changes", None)

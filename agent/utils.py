@@ -43,11 +43,15 @@ def parse_updates_yaml(updates_raw: str) -> dict:
 
 
 def get_sequence_path(base_path: str, sequence_id: int) -> Path:
-    return Path(base_path) / f"Sequence {sequence_id}"
+    return Path(base_path) / "Sequences" / f"Sequence {sequence_id}"
 
 
 def get_settings_path(base_path: str) -> Path:
     return Path(base_path) / "Settings"
+
+
+def get_history_path(base_path: str) -> Path:
+    return Path(base_path) / "History"
 
 
 def load_graph(characters: dict) -> nx.MultiDiGraph:
